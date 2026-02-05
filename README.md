@@ -53,7 +53,11 @@ Open [http://localhost:3000](http://localhost:3000) to see the application.
 ```
 taxnova/
 ├── app/                    # Next.js app directory
-│   ├── page.tsx           # Home page
+│   ├── page.tsx           # Home/Landing page
+│   ├── dashboard/         # Dashboard page
+│   │   └── page.tsx
+│   ├── tax-records/       # Tax Records page
+│   │   └── page.tsx
 │   └── layout.tsx         # Root layout
 ├── components/            # React components
 │   └── TaxRecordsExample.tsx
@@ -66,6 +70,27 @@ taxnova/
 ├── public/               # Static files
 └── API_DOCUMENTATION.md  # Detailed API docs
 ```
+
+## 📄 Pages
+
+### Home Page (`/`)
+- Landing page with hero section
+- Feature highlights
+- Statistics showcase
+- Links to Dashboard and Tax Records
+
+### Dashboard (`/dashboard`)
+- Overview statistics (Total Records, Amount, Pending, Approved)
+- Quick actions panel
+- Recent activity feed
+- Tax year overview table
+
+### Tax Records (`/tax-records`)
+- Complete CRUD interface for tax records
+- Create new tax records with form
+- Filter and search functionality
+- Data table with actions (View, Edit, Delete)
+- Pagination support
 
 ## 🏗️ API Architecture
 
