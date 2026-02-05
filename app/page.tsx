@@ -1,28 +1,20 @@
+// app/page.tsx
+import { Inter } from 'next/font/google'
+import Navbar from '@/components/navbar'
+
+const inter = Inter({ subsets: ['latin'] })
+
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Navigation */}
-      <nav className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <div className="flex items-center">
-              <span className="text-2xl font-bold text-indigo-600">TaxNova</span>
-            </div>
-            <div className="hidden md:flex space-x-8">
-              <a href="/" className="text-gray-700 hover:text-indigo-600 transition-colors">Home</a>
-              <a href="/dashboard" className="text-gray-700 hover:text-indigo-600 transition-colors">Dashboard</a>
-              <a href="/tax-records" className="text-gray-700 hover:text-indigo-600 transition-colors">Tax Records</a>
-              <a href="#" className="text-gray-700 hover:text-indigo-600 transition-colors">Contact</a>
-            </div>
-            <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
-              Get Started
-            </button>
-          </div>
-        </div>
-      </nav>
+    <div className={`${inter.className} min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100`}>
+      
+      {/* Navbar */}
+      <Navbar />
 
       {/* Hero Section */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+        {/* Hero Text */}
         <div className="text-center py-12">
           <h1 className="text-5xl font-bold text-gray-900 mb-4">
             Welcome to <span className="text-indigo-600">TaxNova</span>
@@ -31,6 +23,7 @@ export default function Home() {
             Modern tax management platform built with Next.js, TypeScript, and Tailwind CSS.
             Simplify your tax filing with cutting-edge technology.
           </p>
+          
           <div className="flex justify-center gap-4">
             <a href="/dashboard" className="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors shadow-md">
               Get Started
@@ -111,6 +104,7 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
     </div>
-  );
+  )
 }
