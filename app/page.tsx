@@ -1,74 +1,114 @@
 // app/page.tsx
 import { Inter } from 'next/font/google'
 import Navbar from '@/components/navbar'
+import Image from 'next/image'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   return (
-    <div className={`${inter.className} min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100`}>
-      
+    <div className={`${inter.className} min-h-screen`}>
+
       {/* Navbar */}
       <Navbar />
 
-      {/* Hero Section */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* ================= HERO SECTION ================= */}
+      <section
+        className="relative w-full h-[calc(100vh-80px)] bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('/background.jpg')",
+        }}
+      >
+        {/* light overlay so image is visible */}
+        <div className="absolute inset-0 bg-white/60" />
 
-        {/* Hero Text */}
-        <div className="text-center py-12">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">
-            Welcome to <span className="text-indigo-600">TaxNova</span>
-          </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Modern tax management platform built with Next.js, TypeScript, and Tailwind CSS.
-            Simplify your tax filing with cutting-edge technology.
-          </p>
-          
-          <div className="flex justify-center gap-4">
-            <a href="/dashboard" className="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors shadow-md">
-              Get Started
-            </a>
-            <a href="/tax-records" className="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors shadow-md border border-indigo-200">
-              View Records
-            </a>
+        <div className="relative max-w-[1440px] mx-auto h-full grid grid-cols-1 lg:grid-cols-2 items-center px-10">
+
+          {/* LEFT CONTENT */}
+          <div>
+            <span className="inline-block bg-[#0A2E5C] text-white text-xs font-semibold px-6 py-2 rounded-full mb-6">
+              ATO COMPLIANT & TRUSTED
+            </span>
+
+            <h1 className="text-5xl lg:text-6xl font-bold leading-tight text-[#0F1724]">
+              Professional Tax <br />
+              <span className="text-[#0A2E5C]">Guidance & Strategy</span>
+            </h1>
+
+            <div className="mt-10 flex gap-4">
+              <a
+                href="/book-consultation"
+                className="bg-[#0A2E5C] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#082448] transition"
+              >
+                Book Consultation
+              </a>
+
+              <a
+                href="/services"
+                className="border border-green-500 text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-green-50 transition"
+              >
+                Our Services
+              </a>
+            </div>
           </div>
+
+          {/* RIGHT IMAGE + BLUE SHAPE */}
+<div className="relative hidden lg:flex justify-end items-center h-full">
+
+  {/* blue background shape */}
+  <div
+    className="absolute top-0 right-0"
+    style={{
+      width: '600px',              // long rectangle
+      height: '650px',             // stays inside hero
+      borderTopRightRadius: '0px',
+      borderBottomRightRadius: '0px',
+      borderTopLeftRadius: '0px',
+      borderBottomLeftRadius: '120px', // curved bottom-left corner
+      background: 'linear-gradient(24.41deg, #00274C 29.66%, #005BB2 94.43%)',
+    }}
+  />
+
+  {/* image */}
+  <div className="relative z-10 rounded-[22px] overflow-hidden shadow-2xl -mr-10">
+    <Image
+      src="/hero.jpg"
+      alt="Consultation"
+      width={540}
+      height={440}
+      className="object-cover"
+      priority
+    />
+  </div>
+          </div>
+
         </div>
+      </section>
+
+
+      
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
         {/* Features Grid */}
         <div className="grid md:grid-cols-3 gap-8 mt-16">
           <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow">
-            <div className="bg-indigo-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-              <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">Fast Processing</h3>
             <p className="text-gray-600">
-              Process tax returns quickly with our optimized platform and real-time calculations.
+              Process tax returns quickly with our optimized platform.
             </p>
           </div>
 
           <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow">
-            <div className="bg-green-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">Secure & Compliant</h3>
             <p className="text-gray-600">
-              Bank-level security with full compliance to tax regulations and data protection.
+              Bank-level security with full compliance.
             </p>
           </div>
 
           <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow">
-            <div className="bg-purple-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-              <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-              </svg>
-            </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">Easy to Use</h3>
             <p className="text-gray-600">
-              Intuitive interface that makes tax filing simple for everyone.
+              Simple and intuitive interface.
             </p>
           </div>
         </div>
@@ -98,10 +138,8 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="bg-white mt-16 border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center text-gray-600">
-            <p>© 2026 TaxNova. Simplifying tax management with modern technology.</p>
-          </div>
+        <div className="max-w-7xl mx-auto px-4 py-8 text-center text-gray-600">
+          © 2026 TaxNova. Simplifying tax management with modern technology.
         </div>
       </footer>
 
