@@ -3,7 +3,8 @@ import { Inter } from 'next/font/google'
 import Navbar from '@/components/navbar'
 import Image from 'next/image'
 import { ShieldCheck } from "lucide-react"
-import { User, Laptop, Store, Building, Rocket, Facebook, Linkedin, Twitter } from "lucide-react" // 👈 icons for trusted section
+import { User, Laptop, Store, Building, Rocket, Facebook, Linkedin, Twitter, Check } from "lucide-react" // 👈 icons for trusted section
+import Link from "next/link"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -372,82 +373,108 @@ export default function Home() {
 
     </div>
 
-    {/* ================= PRICING SECTION ================= */}
-<section className="bg-gray-50 py-20">
-  <div className="max-w-7xl mx-auto px-6">
 
-    {/* Heading */}
-    <div className="text-center mb-14 w-full">
-      <h2 className="text-4xl font-bold text-gray-900">
-        Simple, Transparent Pricing
-      </h2>
-      <p className="text-gray-500 mt-3">
-        Packages designed for every stage of your financial journey.
-      </p>
-    </div>
-
-    {/* Cards Horizontal */}
-    <div className="flex justify-center gap-8 flex-wrap lg:flex-nowrap">
-
-      {/* Individual Card */}
-      <div className="bg-white rounded-2xl shadow p-8 flex flex-col w-[450px] h-auto hover:scale-105 transition-transform duration-300">
-        <h3 className="font-semibold text-lg mb-1 text-gray-900">Individual</h3>
-        <p className="text-sm text-gray-400 mb-6">For employees and sole traders.</p>
-        <div className="text-3xl font-bold mb-6">
-          $199 <span className="text-sm font-normal text-gray-400">/year</span>
-        </div>
-        <ul className="space-y-3 mb-6 flex-1">
-          <li className="flex items-center gap-2 text-gray-700"><span className="text-green-500">✔</span> Standard Tax Return</li>
-          <li className="flex items-center gap-2 text-gray-700"><span className="text-green-500">✔</span> Deduction Optimization</li>
-          <li className="flex items-center gap-2 text-gray-700"><span className="text-green-500">✔</span> ATO Compliance Check</li>
-          <li className="flex items-center gap-2 text-gray-700"><span className="text-green-500">✔</span> Email Support</li>
-        </ul>
-        <button className="w-full border border-green-500 text-gray-700 py-3 rounded-lg hover:bg-green-500 hover:text-white transition">
-          Get Started
-        </button>
-      </div>
-
-      {/* Small Businesses Card */}
-      <div className="bg-white rounded-2xl shadow p-8 flex flex-col w-[450px] h-auto hover:scale-105 transition-transform duration-300">
-        <h3 className="font-semibold text-lg mb-1 text-gray-900">Small Businesses</h3>
-        <p className="text-sm text-gray-400 mb-6">For growing companies & startups.</p>
-        <div className="text-3xl font-bold mb-6">
-          $149 <span className="text-sm font-normal text-gray-400">/year</span>
-        </div>
-        <ul className="space-y-3 mb-6 flex-1">
-          <li className="flex items-center gap-2 text-gray-700"><span className="text-green-500">✔</span> Quarterly BAS Prep</li>
-          <li className="flex items-center gap-2 text-gray-700"><span className="text-green-500">✔</span> Annual Company Tax Return</li>
-          <li className="flex items-center gap-2 text-gray-700"><span className="text-green-500">✔</span> Xero/MYOB Setup</li>
-          <li className="flex items-center gap-2 text-gray-700"><span className="text-green-500">✔</span> Financial Reporting</li>
-          <li className="flex items-center gap-2 text-gray-700"><span className="text-green-500">✔</span> Priority Support</li>
-        </ul>
-        <button className="w-full border border-green-500 text-gray-700 py-3 rounded-lg hover:bg-green-500 hover:text-white transition">
-          Get Started
-        </button>
-      </div>
-
-      {/* Corporate Clients Card */}
-      <div className="bg-white rounded-2xl shadow p-8 flex flex-col w-[450px] h-auto hover:scale-105 transition-transform duration-300">
-        <h3 className="font-semibold text-lg mb-1 text-gray-900">Corporate Clients</h3>
-        <p className="text-sm text-gray-400 mb-6">For growing companies & startups.</p>
-        <div className="text-3xl font-bold mb-6">Custom</div>
-        <ul className="space-y-3 mb-6 flex-1">
-          <li className="flex items-center gap-2 text-gray-700"><span className="text-green-500">✔</span> Full Service Accounting</li>
-          <li className="flex items-center gap-2 text-gray-700"><span className="text-green-500">✔</span> Monthly Advisory Meeting</li>
-          <li className="flex items-center gap-2 text-gray-700"><span className="text-green-500">✔</span> Payroll & Staff Management</li>
-          <li className="flex items-center gap-2 text-gray-700"><span className="text-green-500">✔</span> Strategic Tax Planning</li>
-          <li className="flex items-center gap-2 text-gray-700"><span className="text-green-500">✔</span> Dedicated Account Manager</li>
-        </ul>
-        <button className="w-full border border-green-500 text-gray-700 py-3 rounded-lg hover:bg-green-500 hover:text-white transition">
-          Get Started
-        </button>
-      </div>
-
-    </div>
   </div>
 </section>
-  </div>
-</section>
+
+{/* PRICING SECTION */}
+      <section className="bg-gray-50 py-20">
+        <div className="max-w-7xl mx-auto px-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-extrabold text-[#1F2937] mb-4">
+              Simple, Transparent Pricing
+            </h2>
+            <p className="text-gray-500 text-lg">
+              Packages designed for every stage of your financial journey.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Individual Card */}
+            <div className="group bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col transition-all duration-500 ease-in-out hover:bg-[#00274C] hover:shadow-2xl hover:-translate-y-2">
+              <h3 className="text-xl font-bold text-gray-900 group-hover:text-white transition-colors duration-500">Individual</h3>
+              <p className="text-gray-400 text-sm mb-6 group-hover:text-gray-200 transition-colors duration-500">For employees and sole traders.</p>
+              <div className="flex items-baseline mb-8">
+                <span className="text-4xl font-bold text-gray-900 group-hover:text-white transition-colors duration-500">$199</span>
+                <span className="text-gray-400 ml-1 group-hover:text-gray-300 transition-colors duration-500">/year</span>
+              </div>
+              
+              <ul className="space-y-4 mb-10 flex-grow">
+                {["Standard Tax Return", "Deduction Optimization", "ATO Compliance Check", "Email Support"].map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-gray-600 text-sm group-hover:text-white transition-colors duration-500">
+                    <div className="bg-green-500 rounded-full p-1 transition-all duration-500 group-hover:bg-white">
+                      <Check size={12} className="text-white transition-colors duration-500 group-hover:text-[#00274C]" />
+                    </div>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <Link
+                href="/contact"
+                className="w-full text-center py-3 px-6 rounded-lg border border-green-500 text-gray-700 font-semibold group-hover:bg-green-500 group-hover:text-white transition-all duration-500 inline-block"
+              >
+                Get Started
+              </Link>
+            </div>
+
+            {/* Small Businesses Card */}
+            <div className="group bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col transition-all duration-500 ease-in-out hover:bg-[#00274C] hover:shadow-2xl hover:-translate-y-2">
+              <h3 className="text-xl font-bold text-gray-900 group-hover:text-white transition-colors duration-500">Small Businesses</h3>
+              <p className="text-gray-400 text-sm mb-6 group-hover:text-gray-200 transition-colors duration-500">For growing companies & startups.</p>
+              <div className="flex items-baseline mb-8">
+                <span className="text-4xl font-bold text-gray-900 group-hover:text-white transition-colors duration-500">$149</span>
+                <span className="text-gray-400 ml-1 group-hover:text-gray-300 transition-colors duration-500">/year</span>
+              </div>
+              
+              <ul className="space-y-4 mb-10 flex-grow">
+                {["Quarterly BAS Prep", "Annual Company Tax Return", "Xero/MYOB Setup", "Financial Reporting", "Priority Support"].map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-gray-600 text-sm group-hover:text-white transition-colors duration-500">
+                    <div className="bg-green-500 rounded-full p-1 transition-all duration-500 group-hover:bg-white">
+                      <Check size={12} className="text-white transition-colors duration-500 group-hover:text-[#00274C]" />
+                    </div>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <Link
+                href="/contact"
+                className="w-full text-center py-3 px-6 rounded-lg border border-green-500 text-gray-700 font-semibold group-hover:bg-green-500 group-hover:text-white transition-all duration-500 inline-block"
+              >
+                Get Started
+              </Link>
+            </div>
+
+            {/* Corporate Clients Card */}
+            <div className="group bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col transition-all duration-500 ease-in-out hover:bg-[#00274C] hover:shadow-2xl hover:-translate-y-2">
+              <h3 className="text-xl font-bold text-gray-900 group-hover:text-white transition-colors duration-500">Corporate Clients</h3>
+              <p className="text-gray-400 text-sm mb-6 group-hover:text-gray-200 transition-colors duration-500">For growing companies & startups.</p>
+              <div className="flex items-baseline mb-8">
+                <span className="text-4xl font-bold text-gray-900 group-hover:text-white transition-colors duration-500">Custom</span>
+              </div>
+              
+              <ul className="space-y-4 mb-10 flex-grow">
+                {["Full Service Accounting", "Monthly Advisory Meeting", "Payroll & Staff Management", "Strategic Tax Planning", "Dedicated Account Manager"].map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-gray-600 text-sm group-hover:text-white transition-colors duration-500">
+                    <div className="bg-green-500 rounded-full p-1 transition-all duration-500 group-hover:bg-white">
+                      <Check size={12} className="text-white transition-colors duration-500 group-hover:text-[#00274C]" />
+                    </div>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <Link
+              href="/contact"
+              className="w-full text-center py-3 px-6 rounded-lg border border-green-500 text-gray-700 font-semibold group-hover:bg-green-500 group-hover:text-white transition-all duration-500 inline-block"
+            >
+              Get Started
+            </Link>
+            </div>
+          </div>
+        </div>
+      </section>
 
    {/* Footer Section */}
 <footer className="bg-[#002140] text-white pt-16 pb-8">
@@ -479,7 +506,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Services Column */}
       {/* Services Column */}
       <div className="lg:ml-8">
         <h4 className="font-bold text-lg mb-6 uppercase tracking-wider text-sm">Services</h4>
