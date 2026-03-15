@@ -33,7 +33,7 @@ export default function Home() {
               className="relative -top-25 inline-flex items-center bg-[#0A2E5C] text-white text-xs font-semibold
                         px-[12px] py-[4px] gap-[6px]"
               style={{
-                width: '584px',
+                width: '31vh',
                 height: '32px',
                 borderRadius: '100px',
                 opacity: 1,

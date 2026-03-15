@@ -3,33 +3,84 @@
 import Image from "next/image"
 import Link from "next/link"
 import { PhoneForwarded, ChevronDown, Menu, X } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { API_ENDPOINTS } from "@/config/api"
+
+interface MenuItem {
+  id: number
+  name: string
+  href: string
+  children?: MenuItem[]
+  isCta?: boolean
+  ctaStyle?: "primary" | "outline"
+  ctaPosition?: "right" | "top"
+}
+
+interface StrapiMenuItem {
+  id: number
+  attributes: {
+    title: string
+    url: string
+    children?: {
+      data: StrapiMenuItem[]
+    }
+  }
+}
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openDropdowns, setOpenDropdowns] = useState<Record<string, boolean>>({})
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  const servicesDropdown = [
-    { name: "Individual Tax Services", href: "/services/individual-tax" },
-    { name: "Business Tax Services", href: "/services/business-tax" },
-    { name: "Accounting & Bookkeeping", href: "/services/accounting" },
-    { name: "GST & BAS", href: "/services/gst-bas" },
-    { name: "Advisory & Consultation", href: "/services/advisory" },
-    { name: "Advanced Services", href: "/services/advanced" },
-  ]
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      try {
+        setIsLoading(true)
+        const response = await fetch(API_ENDPOINTS.MENU_ITEMS)
 
-  const aboutDropdown = [
-    { name: "Company Overview", href: "/about/company-overview" },
-    { name: "Our Team", href: "/about/team" },
-    { name: "Why Choose Us", href: "/about/why-choose-us" },
-  ]
+        if (!response.ok) {
+          throw new Error(`Failed to fetch menu items: ${response.statusText}`)
+        }
 
-  const resourcesDropdown = [
-    { name: "Blogs / Articles", href: "/resources/blogs" },
-    { name: "FAQs", href: "/resources/faqs" },
-    { name: "eBooks & Downloads", href: "/resources/ebooks" },
-    { name: "Calculators", href: "/resources/calculators" },
-  ]
+        const data = await response.json()
+        console.log("API Response:", data)
+
+        // Transform Strapi response to frontend format and sort by order
+        const transformedItems: MenuItem[] = (data.data || [])
+          .sort((a: any, b: any) => (a.order || 0) - (b.order || 0))
+          .map((item: any) => ({
+            id: item.id,
+            name: item.Title || item.title || "",
+            href: item.url || "/",
+            isCta: item.isCta || false,
+            ctaStyle: item.ctaStyle || "primary",
+            ctaPosition: item.ctaPosition || "right",
+            children: (item.children || [])
+              .sort((a: any, b: any) => (a.order || 0) - (b.order || 0))
+              .map((child: any) => ({
+                id: child.id,
+                name: child.Title || child.title || "",
+                href: child.url || "/",
+                isCta: child.isCta || false,
+                ctaStyle: child.ctaStyle || "primary",
+                ctaPosition: child.ctaPosition || "right",
+              })),
+          }))
+
+        setMenuItems(transformedItems)
+        setError(null)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to load menu items")
+        console.error("Menu fetch error:", err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchMenuItems()
+  }, [])
 
   const pricingDropdown = [
     { name: "Individual Plans", href: "/pricing/individual" },
@@ -37,18 +88,26 @@ export default function Navbar() {
     { name: "Custom Packages", href: "/pricing/custom" },
   ]
 
-  const menuItems = [
-    { name: "Home", href: "/" },
-    { name: "Services", href: "/services", dropdown: servicesDropdown },
-    { name: "About", href: "/about", dropdown: aboutDropdown },
-    { name: "Resources", href: "/resources", dropdown: resourcesDropdown },
-  ]
-
   const toggleDropdown = (name: string) => {
     setOpenDropdowns((prev) => ({
       ...prev,
       [name]: !prev[name],
     }))
+  }
+
+  // Helper function to get CTA button styling
+  const getCtaClassName = (item: MenuItem): string => {
+    if (!item.isCta) {
+      return "flex items-center gap-1 text-[16px] font-semibold text-gray-700 hover:text-[#960000] transition"
+    }
+
+    // CTA styling
+    const baseClass = "px-5 py-2 rounded-lg text-sm font-semibold transition whitespace-nowrap flex items-center gap-1"
+    const styleClass = item.ctaStyle === "outline"
+      ? "border border-[#0A2E5C] text-[#0A2E5C] hover:bg-[#0A2E5C] hover:text-white"
+      : "bg-[#0A2E5C] text-white hover:bg-[#082448]"
+
+    return `${baseClass} ${styleClass}`
   }
 
   return (
@@ -67,96 +126,54 @@ export default function Navbar() {
         </Link>
 
         {/* DESKTOP MENU */}
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-8 pl-8">
 
-          {menuItems.map((item) => (
-            <div key={item.name} className="relative group">
-              <Link
-                href={item.href}
-                className="flex items-center gap-1 text-[16px] font-semibold text-gray-700 hover:text-[#960000] transition"
-              >
-                {item.name}
-                {item.dropdown && <ChevronDown size={14} />}
-              </Link>
+          {isLoading ? (
+            <div className="text-gray-500">Loading menu...</div>
+          ) : error ? (
+            <div className="text-red-500 text-sm">{error}</div>
+          ) : (
+            <>
+              {menuItems.map((item) => (
+                <div key={item.id} className={item.isCta ? "" : "relative group"}>
+                  <Link
+                    href={item.href}
+                    className={getCtaClassName(item)}
+                  >
+                    {item.name}
+                    {!item.isCta && item.children && item.children.length > 0 && <ChevronDown size={14} />}
+                  </Link>
 
-              {item.dropdown && (
-                <div className="absolute left-0 top-full mt-3 w-[260px] bg-white shadow-xl rounded-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                  <ul className="py-3 text-sm">
-                    {item.dropdown.map((subItem) => (
-                      <li key={subItem.name}>
-                        <Link
-                          href={subItem.href}
-                          className="block px-5 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#960000] transition"
-                        >
-                          {subItem.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+                  {!item.isCta && item.children && item.children.length > 0 && (
+                    <div className="absolute left-0 top-full mt-3 w-[260px] bg-white shadow-xl rounded-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                      <ul className="py-3 text-sm">
+                        {item.children.map((subItem) => (
+                          <li key={subItem.id}>
+                            <Link
+                              href={subItem.href}
+                              className="block px-5 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#960000] transition"
+                            >
+                              {subItem.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          ))}
+              ))}            
 
-          {/* CONTACT */}
-          <Link
-            href="/contact"
-            className="text-[16px] font-semibold text-gray-700 hover:text-[#960000] transition"
-          >
-            Contact
-          </Link>
-
-          {/* PRICING */}
-          <div className="relative group">
-            <Link
-              href="/pricing"
-              className="flex items-center gap-1 text-[16px] font-semibold text-gray-700 hover:text-[#960000] transition"
-            >
-              Pricing <ChevronDown size={14} />
-            </Link>
-
-            <div className="absolute left-0 top-full mt-3 w-[240px] bg-white shadow-xl rounded-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-              <ul className="py-3 text-sm">
-                {pricingDropdown.map((plan) => (
-                  <li key={plan.name}>
-                    <Link
-                      href={plan.href}
-                      className="block px-5 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#960000] transition"
-                    >
-                      {plan.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* PHONE */}
-          <div className="flex items-center gap-2 text-[15px] font-semibold text-gray-700 whitespace-nowrap">
-            <PhoneForwarded size={20} className="text-green-500" />
-            <span className="underline underline-offset-4">
-              02 4906 0967
-            </span>
-          </div>
+              {/* PHONE */}
+              <div className="flex items-center gap-2 text-[15px] font-semibold text-gray-700 whitespace-nowrap">
+                <PhoneForwarded size={20} className="text-green-500" />
+                <span className="underline underline-offset-4">
+                  02 4906 0967
+                </span>
+              </div>
+            </>
+          )}
 
         </nav>
-
-        {/* CTA BUTTONS */}
-        <div className="hidden xl:flex items-center gap-4">
-          <Link
-            href="/tax-return"
-            className="border border-[#0A2E5C] text-[#0A2E5C] px-5 py-2 rounded-lg text-sm font-semibold hover:bg-[#0A2E5C] hover:text-white transition whitespace-nowrap"
-          >
-            Tax Return
-          </Link>
-
-          <Link
-            href="/book-consultation"
-            className="bg-[#0A2E5C] text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-[#082448] transition whitespace-nowrap"
-          >
-            Book Consultation
-          </Link>
-        </div>
 
         {/* MOBILE BUTTON */}
         <button
@@ -173,61 +190,41 @@ export default function Navbar() {
           <div className="flex flex-col px-6 py-4 gap-2">
 
             {menuItems.map((item) => (
-              <div key={item.name} className="flex flex-col">
-                <button
-                  onClick={() => item.dropdown && toggleDropdown(item.name)}
-                  className="flex items-center justify-between py-2 text-gray-700 font-semibold hover:text-[#960000] transition"
-                >
-                  {item.name}
-                  {item.dropdown && <ChevronDown size={16} />}
-                </button>
+              <div key={item.id} className="flex flex-col">
+                {item.isCta ? (
+                  <Link
+                    href={item.href}
+                    className={getCtaClassName(item) + " justify-center"}
+                  >
+                    {item.name}
+                  </Link>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => item.children && item.children.length > 0 && toggleDropdown(item.name)}
+                      className="flex items-center justify-between py-2 text-gray-700 font-semibold hover:text-[#960000] transition"
+                    >
+                      {item.name}
+                      {item.children && item.children.length > 0 && <ChevronDown size={16} />}
+                    </button>
 
-                {item.dropdown && openDropdowns[item.name] && (
-                  <div className="flex flex-col pl-4">
-                    {item.dropdown.map((subItem) => (
-                      <Link
-                        key={subItem.name}
-                        href={subItem.href}
-                        className="py-2 text-gray-700 hover:text-[#960000] transition"
-                      >
-                        {subItem.name}
-                      </Link>
-                    ))}
-                  </div>
+                    {item.children && item.children.length > 0 && openDropdowns[item.name] && (
+                      <div className="flex flex-col pl-4">
+                        {item.children.map((subItem) => (
+                          <Link
+                            key={subItem.id}
+                            href={subItem.href}
+                            className="py-2 text-gray-700 hover:text-[#960000] transition"
+                          >
+                            {subItem.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             ))}
-
-            <Link
-              href="/contact"
-              className="py-2 text-gray-700 font-semibold hover:text-[#960000] transition"
-            >
-              Contact
-            </Link>
-
-            {/* Pricing Mobile */}
-            <div className="flex flex-col">
-              <button
-                onClick={() => toggleDropdown("Pricing")}
-                className="flex items-center justify-between py-2 text-gray-700 font-semibold hover:text-[#960000] transition"
-              >
-                Pricing <ChevronDown size={16} />
-              </button>
-
-              {openDropdowns["Pricing"] && (
-                <div className="flex flex-col pl-4">
-                  {pricingDropdown.map((plan) => (
-                    <Link
-                      key={plan.name}
-                      href={plan.href}
-                      className="py-2 text-gray-700 hover:text-[#960000] transition"
-                    >
-                      {plan.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
 
             {/* Phone */}
             <div className="flex items-center gap-2 py-2 text-gray-700 font-semibold">
@@ -236,21 +233,6 @@ export default function Navbar() {
                 02 4906 0967
               </span>
             </div>
-
-            {/* CTA Buttons */}
-            <Link
-              href="/tax-return"
-              className="border border-[#0A2E5C] text-[#0A2E5C] px-5 py-2 rounded-lg text-sm font-semibold hover:bg-[#0A2E5C] hover:text-white transition mt-2"
-            >
-              Tax Return
-            </Link>
-
-            <Link
-              href="/book-consultation"
-              className="bg-[#0A2E5C] text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-[#082448] transition mt-2"
-            >
-              Book Consultation
-            </Link>
           </div>
         </div>
       )}
