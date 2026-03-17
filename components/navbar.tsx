@@ -126,7 +126,7 @@ export default function Navbar() {
         </Link>
 
         {/* DESKTOP MENU */}
-        <nav className="hidden lg:flex items-center gap-8 pl-8">
+        <nav className="hidden xl:flex items-center gap-8 pl-8">
 
           {isLoading ? (
             <div className="text-gray-500">Loading menu...</div>
@@ -177,7 +177,7 @@ export default function Navbar() {
 
         {/* MOBILE BUTTON */}
         <button
-          className="lg:hidden text-gray-700"
+          className="xl:hidden text-gray-700"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -186,7 +186,7 @@ export default function Navbar() {
 
       {/* MOBILE MENU */}
       {mobileMenuOpen && (
-        <div className="overflow-hidden lg:hidden bg-white border-t border-gray-200">
+        <div className="overflow-hidden lg:hidden bg-white border-t border-gray-200 ">
           <div className="flex flex-col px-6 py-4 gap-2">
 
             {menuItems.map((item) => (
