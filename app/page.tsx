@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   return (
-    <div className={`${inter.className} min-h-screen`}>
+    <div className={`${inter.className} overflow-hidden min-h-screen`}>
 
       {/* Navbar */}
       <Navbar />
@@ -25,7 +25,7 @@ export default function Home() {
         {/* light overlay so image is visible */}
         <div className="absolute inset-0 bg-white/60" />
 
-        <div className="relative max-w-[1440px] mx-auto h-full grid grid-cols-1 lg:grid-cols-2 items-center px-10">
+        <div className="overflow-hidden relative max-w-[1440px] mx-auto h-full grid grid-cols-1 lg:grid-cols-2 items-center px-10">
 
           {/* LEFT CONTENT */}
           <div>
@@ -52,14 +52,14 @@ export default function Home() {
             <div className="mt-10 flex gap-4">
               <a
                 href="/book-consultation"
-                className="bg-[#0A2E5C] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#082448] transition"
+                className="overflow-hidden bg-[#0A2E5C] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#082448] transition"
               >
                 Book Consultation
               </a>
 
               <a
                 href="/services"
-                className="border border-green-500 text-black px-6 py-3 rounded-lg font-bold hover:bg-green-500 hover:text-white transition"
+                className=" overflow-hidden border border-green-500 text-black px-6 py-3 rounded-lg font-bold hover:bg-green-500 hover:text-white transition"
               >
                 Our Services
               </a>
@@ -67,7 +67,7 @@ export default function Home() {
           </div>
 
           {/* RIGHT IMAGE + BLUE SHAPE */}
-          <div className="relative hidden lg:flex justify-end items-center h-full">
+          <div className="overflow-hidden relative hidden lg:flex justify-end items-center h-full">
 
             {/* blue background shape */}
             <div

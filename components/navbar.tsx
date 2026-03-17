@@ -145,7 +145,7 @@ export default function Navbar() {
                   </Link>
 
                   {!item.isCta && item.children && item.children.length > 0 && (
-                    <div className="absolute left-0 top-full mt-3 w-[260px] bg-white shadow-xl rounded-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                    <div className=" overflow-hidden absolute left-0 top-full mt-3 w-[260px] bg-white shadow-xl rounded-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                       <ul className="py-3 text-sm">
                         {item.children.map((subItem) => (
                           <li key={subItem.id}>
@@ -164,7 +164,7 @@ export default function Navbar() {
               ))}            
 
               {/* PHONE */}
-              <div className="flex items-center gap-2 text-[15px] font-semibold text-gray-700 whitespace-nowrap">
+              <div className="overflow-hiddenflex items-center gap-2 text-[15px] font-semibold text-gray-700 whitespace-nowrap">
                 <PhoneForwarded size={20} className="text-green-500" />
                 <span className="underline underline-offset-4">
                   02 4906 0967
@@ -186,7 +186,7 @@ export default function Navbar() {
 
       {/* MOBILE MENU */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-200">
+        <div className="overflow-hidden lg:hidden bg-white border-t border-gray-200">
           <div className="flex flex-col px-6 py-4 gap-2">
 
             {menuItems.map((item) => (
