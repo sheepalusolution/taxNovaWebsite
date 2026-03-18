@@ -164,7 +164,7 @@ export default function Navbar() {
               ))}            
 
               {/* PHONE */}
-              <div className="overflow-hiddenflex items-center gap-2 text-[15px] font-semibold text-gray-700 whitespace-nowrap">
+              <div className="overflow-hidden flex items-center gap-2 text-[15px] font-semibold text-gray-700 whitespace-nowrap">
                 <PhoneForwarded size={20} className="text-green-500" />
                 <span className="underline underline-offset-4">
                   02 4906 0967
@@ -217,7 +217,7 @@ export default function Navbar() {
                             className="py-2 text-gray-700 hover:text-[#960000] transition"
                           >
                             {subItem.name}
-                          </Link>
+                           </Link>
                         ))}
                       </div>
                     )}
